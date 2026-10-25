@@ -35,3 +35,9 @@ Earlier Zara Home and Cosmos website research informed the rejected editorial it
 [Asset paths and generation prompts](docs/ASSETS.md) record the two original transparent cutouts. Preserve their alpha. UI, labels, swatches, controls, and shadows are live components. No reference-site assets were copied.
 
 Inspect the actual running app, including mood changes, sample capture, budget errors, saved rooms, search, empty results, and product routes. Screenshots prefixed `creative-` show the current iteration; earlier screenshots document preceding layouts. [Verification](docs/VERIFICATION.md) distinguishes browser checks, native bundle checks, and outstanding device work.
+
+## Interaction contract
+
+The approved visual direction stays in place. See [the UX audit](docs/UX.md) for the eight-rule framework and completed journeys. Keep three studio destinations. Setup is one resumable workspace; settings are edited within a plan. Reference editing returns directly to that plan, and product details close to their original context. Close preserves drafts; Done finishes the task. Removals offer Undo. Do not restore chains of generic Back screens or duplicate destination shortcuts.
+
+Room identities are independent of style and budget. Local drafts, photo previews, item selections and favorites must survive reload. Clips explicitly remain session-only. Never present a sample style reference as AI analysis of a room.

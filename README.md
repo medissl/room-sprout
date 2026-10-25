@@ -23,19 +23,23 @@ npm run preview
 
 ## Included
 
-- Discover screen with room inspiration and style directions.
-- Guided three-angle photo capture or library selection, with removal and permission/error handling.
-- Style selection and bounded whole-rupiah budget input.
-- Pre-designed sample makeover, palette, tips, and additions that fit the sample budget.
-- Locally saved sample concepts and decor bookmarks.
-- Searchable decor ideas and explicit Shopee/Tokopedia search links.
-- Responsive landing page with working prototype access and clear app availability.
+- The approved tactile creative-studio design, with three main studio destinations.
+- One resumable setup workspace for room references, style, name and budget.
+- Guided photos and compressed local reference previews; silent native clip capture and muted clip selection/preview.
+- Editable room plans, budget-aware item mixes, live estimated totals and a clear Done action.
+- Undo for room, photo, item and bookmark removal; local drafts and saved plans.
+- Search, intersecting catalog filters, meaningful empty states and contextual product details.
+- Explicit Shopee/Tokopedia search destinations and a Vercel-ready landing page.
 
-## Deliberate prototype boundaries
+[UX research and decisions](docs/UX.md) map the work to Shneiderman's eight rules.
 
-No account, database, AI API, photo upload, room measurement, video scanning, checkout, affiliate attribution, or live product feeds. Selected photos remain in memory on the device for the current app session. Only sample concept metadata and bookmarks are persisted in AsyncStorage. Clearing browser/app storage removes the collection; it does not sync across devices.
+## Prototype boundaries
 
-Room and product photos are generated concept imagery. Price estimates are illustrative; store links open searches for similar items, not exact verified listings. The landing page does not pretend that signed app downloads exist.
+Styling is explicitly sample styling. There is no AI inference, remote photo upload, account, room measurement, live product catalog, checkout or affiliate system. Named rooms, drafts, selected items, favorites and bounded compressed JPEG references persist in AsyncStorage on this device. Camera originals are not uploaded. Clips remain in their current session and have an explicit replacement path after reload; room plans persist independently. Clearing app/browser storage removes the local collection.
+
+Silent camera recording uses no microphone permission. Web users choose a clip from their library. Physical camera permissions, native playback and signed installation still require device verification.
+
+Room/product imagery is conceptual. Prices are estimates, and marketplace links search for similar items. The website does not pretend signed app downloads exist.
 
 ## Does it need a database?
 
@@ -52,9 +56,9 @@ npx playwright install chromium
 npm run test:browser
 ```
 
-The browser check uses `http://localhost:8081` by default. For the production preview, set `ROOMSPROUT_URL=http://127.0.0.1:4173`. If using installed Chrome, set `ROOMSPROUT_BROWSER_CHANNEL=chrome`. Screenshots go to `docs/screenshots/`. The test browser uses a separate temporary profile.
+The browser check uses `http://127.0.0.1:4173` by default. Override `ROOMSPROUT_URL` for another server. If using installed Chrome, set `ROOMSPROUT_BROWSER_CHANNEL=chrome`. Screenshots go to `docs/screenshots/`. The test browser uses a separate temporary profile.
 
-`npm test` validates budget boundaries, sample shopping totals, and encoded marketplace destinations. The browser check covers real file selection/removal, the sample flow, validation, local persistence, bookmarks, search states, external destination, and responsive layouts.
+`npm test` covers catalog logic, migration, independent room identities, draft/reference round trips, invalid stored data, affordability and serialized write recovery. The browser suite covers the room, media, editing, undo, catalog and recovery journeys in an isolated profile. See docs/VERIFICATION.md for what actually ran.
 
 ## Vercel
 
@@ -70,4 +74,4 @@ The installed Expo 58 toolchain reports five high-severity npm audit findings in
 
 ## Next milestone
 
-Review the visual prototype on a real phone, approve the core direction, then connect one secure photo-to-recommendation flow with explicit consent, limits, cost handling, and a trustworthy product source. Keep 3D room scanning and live shopping integrations separate until that flow is validated.
+Validate capture, permissions and accessibility on a physical phone, then connect one secure photo-to-recommendation endpoint with consent, request limits, cost handling and a trustworthy product source. Signed distribution and Vercel publication require authorization.

@@ -9,19 +9,42 @@ import { colors, fonts } from '../../theme';
 import { useRoom } from '../../state';
 
 export default function Discover() {
-  const { mood, setMood } = useRoom();
+  const store = useRoom();
+  const mood = store.inspiration;
+  const draft = [...store.projects]
+    .sort((a, b) => b.updatedAt - a.updatedAt)
+    .find((room) => room.stage !== 'plan');
+  function start() {
+    const room = store.createRoom();
+    if (room) router.push({ pathname: '/capture', params: { id: room.id, from: 'discover' } });
+  }
+  function resume() {
+    if (draft)
+      router.push({
+        pathname: '/capture',
+        params: { id: draft.id, step: draft.stage, from: 'discover' },
+      });
+    else start();
+  }
   return (
     <SafeAreaView edges={['top', 'left', 'right']} style={s.page}>
       <View style={s.header}>
         <Logo small />
-        <TextAction onPress={() => router.push('/studio/rooms')}>My rooms</TextAction>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={s.content}>
         <Text accessibilityRole="header" style={s.title}>
           Make room{'\n'}for you.
         </Text>
-        <RoomBoard mood={mood} onOpen={() => router.push('/result')} />
-        <Button onPress={() => router.push('/capture')}>Style my room</Button>
+        <RoomBoard
+          mood={mood}
+          onOpen={() =>
+            router.push({ pathname: '/result', params: { sample: mood, from: 'discover' } })
+          }
+        />
+        <Button disabled={!store.ready} onPress={resume}>
+          {draft ? 'Continue my room' : 'Style my room'}
+        </Button>
+        {draft && <TextAction onPress={start}>Start another room</TextAction>}
         <View style={s.feeling}>
           <Text accessibilityRole="header" style={s.heading}>
             Find your feeling
@@ -37,7 +60,7 @@ export default function Discover() {
                 accessibilityRole="radio"
                 accessibilityLabel={item.name}
                 aria-checked={mood === item.id}
-                onPress={() => setMood(item.id)}
+                onPress={() => store.setInspiration(item.id)}
                 style={({ pressed }) => [
                   s.mood,
                   mood === item.id && s.selected,

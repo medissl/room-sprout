@@ -2,6 +2,25 @@
 
 Checked on 25 October 2026.
 
+## Completed UX prototype
+
+- Research: Shneiderman's eight rules from the University of Maryland, supported by NN/g user-control guidance. Findings and decisions are in docs/UX.md.
+- Nine focused tests passed, including legacy migration, room identity, draft/photo round trips, invalid storage, affordability and ordered write recovery. Typecheck and ESLint passed.
+- Expo Doctor passed 20/20 checks with the added image, video and silent-camera modules.
+- Current production web export and iOS/Android JavaScript bundle exports passed. These are not signed installation binaries.
+- Live in-app-browser walkthrough at 320 × 668 passed: legacy collection preservation; sample setup; invalid-budget blocking; Close/reopen/reload of an unfinished draft; custom item removal/addition; item Undo; live totals; inline budget lowering and recovery; Done closure; room deletion and Undo; saved custom mixes after reload.
+- Selected two real JPEG files, compressed them through the Expo API, removed/restored a preview, and reopened the draft after reload. Both previews persisted and displayed in the room/reference comparison.
+- Verified direct reference editing returned to the existing plan without repeating style selection.
+- Selected the 5.055-second MP4 fixture and inspected the actual video element: readyState 4, muted true, paused true. The clip-based flow reached the plan. Switching reference views worked; after reload the explicit session-only replacement state appeared while the plan remained saved.
+- Verified search reset, intersecting Saved/category filters, empty-state recovery and product context. Marketplace URL encoding is covered by the catalog tests. The embedded browser did not expose a popup from the initial imperative web link, so web destinations now use ordinary accessible anchors; native store opening retains error handling.
+- The native permission introspection showed no iOS microphone usage description and an Android RECORD_AUDIO removal entry. The original microphone expansion was rejected by automatic approval review; muted camera-only recording is the completed safer path. No microphone approval is pending.
+- The browser regression script was rewritten for the completed flow and passed a syntax check. This turn used the actual CUA browser walkthrough rather than running the separate headless suite. Its wider viewport scenarios remain reproducible, not newly claimed as executed.
+- New screenshots prefixed ux- document this iteration. Older visual captures below belong to earlier designs.
+
+Remaining release checks: actual phone recording and permissions, native playback, VoiceOver/TalkBack, signed installation, and the upstream dependency advisories already recorded in README. Styling and product prices remain explicitly illustrative; live AI and catalog matching require backend work.
+
+Final web link inspection confirmed both encoded Shopee/Tokopedia hrefs. Closing product details restored the lamp query. Invalid-product and unknown-page recovery were exercised successfully.
+
 ## Latest creative studio revision
 
 - Re-read the global AGENTS.md and DESIGN.md and recorded the user's chosen creative studio direction in project DESIGN.md.

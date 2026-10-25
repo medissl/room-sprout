@@ -2,38 +2,40 @@ import React, { useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { Logo, TextAction } from '../../components/ui';
+import { Logo, TextAction, Button } from '../../components/ui';
 import { formatPrice, products, type Product } from '../../data';
 import { useRoom } from '../../state';
 import { colors, fonts, ui } from '../../theme';
-
 const categories = ['All', 'Lighting', 'Textiles', 'Objects'] as const;
 export default function Finds() {
   const [query, setQuery] = useState('');
-  const [searching, setSearching] = useState(false);
   const [category, setCategory] = useState<(typeof categories)[number]>('All');
   const [savedOnly, setSavedOnly] = useState(false);
   const { favorites } = useRoom();
   const visible = products.filter(
-    (product) =>
-      (!savedOnly || favorites.includes(product.id)) &&
+    (p) =>
+      (!savedOnly || favorites.includes(p.id)) &&
       (category === 'All' ||
-        (category === 'Lighting' && product.id === 'lamp') ||
-        (category === 'Textiles' && ['throw', 'cushion'].includes(product.id)) ||
-        (category === 'Objects' && product.id === 'vase')) &&
-      `${product.name} ${product.type}`.toLowerCase().includes(query.toLowerCase().trim()),
+        (category === 'Lighting' && p.id === 'lamp') ||
+        (category === 'Textiles' && ['throw', 'cushion'].includes(p.id)) ||
+        (category === 'Objects' && p.id === 'vase')) &&
+      (p.type + ' ' + p.name).toLowerCase().includes(query.trim().toLowerCase()),
   );
+  function reset() {
+    setQuery('');
+    setCategory('All');
+    setSavedOnly(false);
+  }
   return (
     <SafeAreaView edges={['top', 'left', 'right']} style={s.page}>
       <View style={s.header}>
         <Logo small />
         <TextAction
-          onPress={() => {
-            if (searching) setQuery('');
-            setSearching(!searching);
-          }}
+          label={`Saved (${favorites.length})`}
+          selected={savedOnly}
+          onPress={() => setSavedOnly(!savedOnly)}
         >
-          Search
+          Saved
         </TextAction>
       </View>
       <ScrollView
@@ -41,59 +43,40 @@ export default function Finds() {
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={s.content}
       >
-        <View style={s.intro}>
-          <Text accessibilityRole="header" style={s.title}>
-            Little finds.{'\n'}Good energy.
-          </Text>
-          <TextAction
-            label={`Saved (${favorites.length})`}
-            selected={savedOnly}
-            onPress={() => {
-              setCategory('All');
-              setSavedOnly(!savedOnly);
-            }}
-          >
-            Saved
-          </TextAction>
-        </View>
+        <Text accessibilityRole="header" style={s.title}>
+          Little finds.{'\n'}Good energy.
+        </Text>
         <Text style={s.disclosure}>Concept pieces. Estimated prices.</Text>
-        {searching && (
-          <View style={s.search}>
-            <TextInput
-              autoFocus
-              accessibilityLabel="Search decor finds"
-              placeholder="What are you looking for?"
-              placeholderTextColor={colors.muted}
-              value={query}
-              onChangeText={setQuery}
-              style={s.input}
-            />
-            {query ? (
-              <TextAction label="Clear search" onPress={() => setQuery('')}>
-                Clear
-              </TextAction>
-            ) : null}
-          </View>
-        )}
-        <View style={s.categories}>
+        <View style={s.search}>
+          <TextInput
+            accessibilityLabel="Search decor finds"
+            placeholder="Find a finishing touch"
+            value={query}
+            onChangeText={setQuery}
+            style={s.input}
+            placeholderTextColor={colors.muted}
+          />
+          {!!query && (
+            <TextAction label="Clear search" onPress={() => setQuery('')}>
+              Clear
+            </TextAction>
+          )}
+        </View>
+        <View
+          style={s.categories}
+          accessibilityRole="radiogroup"
+          accessibilityLabel="Find categories"
+        >
           {categories.map((item) => (
             <Pressable
               key={item}
-              accessibilityRole="button"
+              accessibilityRole="radio"
               accessibilityLabel={item === 'All' ? 'All finds' : item}
-              accessibilityState={{ selected: category === item && !savedOnly }}
-              onPress={() => {
-                setCategory(item);
-                setSavedOnly(false);
-              }}
-              style={[s.category, category === item && !savedOnly && s.activeCategory]}
+              aria-checked={category === item}
+              onPress={() => setCategory(item)}
+              style={[s.category, category === item && s.activeCategory]}
             >
-              <Text
-                style={[
-                  s.categoryText,
-                  category === item && !savedOnly && { fontFamily: fonts.bold },
-                ]}
-              >
+              <Text style={[s.categoryText, category === item && { fontFamily: fonts.bold }]}>
                 {item}
               </Text>
             </Pressable>
@@ -112,7 +95,21 @@ export default function Finds() {
             ))}
           </View>
         ) : (
-          <Text style={[ui.heading, { paddingVertical: 45 }]}>Nothing here just yet.</Text>
+          <View style={{ gap: 14, paddingVertical: 30 }}>
+            <Text accessibilityRole="header" style={ui.heading}>
+              {savedOnly && !favorites.length
+                ? 'Your collection starts here.'
+                : 'No matching finds.'}
+            </Text>
+            <Text style={ui.body}>
+              {savedOnly && !favorites.length
+                ? 'Save pieces you want to come back to.'
+                : 'Try another search or clear your filters.'}
+            </Text>
+            <Button secondary onPress={reset}>
+              {savedOnly && !favorites.length ? 'Explore all finds' : 'Reset search and filters'}
+            </Button>
+          </View>
         )}
       </ScrollView>
     </SafeAreaView>
@@ -165,6 +162,7 @@ function FindTile({ product }: { product: Product }) {
         <TextAction
           label={saved ? `Unsave ${product.type}` : `Save ${product.type}`}
           selected={saved}
+          disabled={!ready}
           onPress={() => {
             if (ready) toggleFavorite(product.id);
           }}
@@ -259,5 +257,5 @@ const s = StyleSheet.create({
     letterSpacing: -0.3,
   },
   meta: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 2 },
-  price: { fontFamily: fonts.regular, fontSize: 11, color: colors.brown },
+  price: { fontFamily: fonts.regular, fontSize: 12, color: colors.brown },
 });

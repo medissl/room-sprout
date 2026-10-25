@@ -23,16 +23,11 @@ export function RoomBoard({ mood, onOpen }: { mood: MoodId; onOpen: () => void }
         </View>
       </Pressable>
       <View pointerEvents="none" style={s.tape} />
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel="Choose material palette"
-        onPress={() => router.push('/preferences')}
-        style={({ pressed }) => [s.swatches, { opacity: pressed ? 0.6 : 1 }]}
-      >
+      <View accessible accessibilityLabel={`Material palette for ${room.name}`} style={s.swatches}>
         {room.palette.map((color, index) => (
           <View key={color} style={[s.swatch, { backgroundColor: color, top: index * 23 }]} />
         ))}
-      </Pressable>
+      </View>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="View Pleated bedside lamp"

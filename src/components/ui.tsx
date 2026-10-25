@@ -2,6 +2,7 @@ import React from 'react';
 import {
   ActivityIndicator,
   Image,
+  KeyboardAvoidingView,
   Platform,
   Pressable,
   ScrollView,
@@ -10,10 +11,8 @@ import {
   View,
   type ImageSourcePropType,
 } from 'react-native';
-import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, fonts, ui } from '../theme';
-import { useRoom } from '../state';
 
 export function Logo({ small = false }: { small?: boolean }) {
   return (
@@ -74,20 +73,25 @@ export function TextAction({
   children,
   label,
   onPress,
-  selected = false,
+  selected,
+  disabled = false,
 }: {
   children: string;
   label?: string;
   onPress: () => void;
   selected?: boolean;
+  disabled?: boolean;
 }) {
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={label}
       accessibilityState={{ selected }}
+      aria-disabled={disabled}
+      disabled={disabled}
+      {...(Platform.OS === 'web' && selected !== undefined ? { 'aria-pressed': selected } : {})}
       onPress={onPress}
-      style={({ pressed }) => [s.textAction, { opacity: pressed ? 0.5 : 1 }]}
+      style={({ pressed }) => [s.textAction, { opacity: disabled ? 0.4 : pressed ? 0.5 : 1 }]}
     >
       <Text
         style={[
@@ -102,48 +106,42 @@ export function TextAction({
 }
 export function Page({
   children,
-  back,
   title,
   footer,
+  onClose,
 }: {
   children: React.ReactNode;
-  back?: boolean;
   title?: string;
   footer?: React.ReactNode;
+  onClose?: () => void;
 }) {
-  const { storageError } = useRoom();
   return (
     <SafeAreaView style={s.page} edges={['top', 'left', 'right']}>
-      {back && (
-        <View style={s.topbar}>
-          <TextAction
-            label="Go back"
-            onPress={() => (router.canGoBack() ? router.back() : router.replace('/studio'))}
-          >
-            Back
-          </TextAction>
-          {title ? <Text style={ui.small}>{title}</Text> : null}
-        </View>
-      )}
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <View style={s.content}>
-          {children}
-          {storageError ? (
-            <Text accessibilityRole="alert" style={[ui.small, { color: colors.error }]}>
-              {storageError}
-            </Text>
-          ) : null}
-        </View>
-      </ScrollView>
-      {footer && (
-        <SafeAreaView edges={['bottom']} style={s.footer}>
-          {footer}
-        </SafeAreaView>
-      )}
+        {onClose && (
+          <View style={s.topbar} accessibilityLabel={title}>
+            <Logo small />
+            <TextAction label="Close workspace" onPress={onClose}>
+              Close
+            </TextAction>
+          </View>
+        )}
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={s.content}>{children}</View>
+        </ScrollView>
+        {footer && (
+          <SafeAreaView edges={['bottom']} style={s.footer}>
+            {footer}
+          </SafeAreaView>
+        )}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

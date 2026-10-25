@@ -5,6 +5,7 @@ import Head from 'expo-router/head';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { RoomProvider } from '../state';
+import { Feedback, StorageBanner } from '../components/Feedback';
 import { colors } from '../theme';
 
 export default function Layout() {
@@ -51,6 +52,7 @@ export default function Layout() {
               },
           ]}
         >
+          <StorageBanner />
           <Stack
             screenOptions={{
               headerShown: false,
@@ -65,6 +67,7 @@ export default function Layout() {
             <Stack.Screen name="result" />
             <Stack.Screen name="product" options={{ presentation: 'modal' }} />
           </Stack>
+          <Feedback />
         </View>
       </View>
     </RoomProvider>
