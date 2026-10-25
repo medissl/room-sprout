@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "RoomSprout",
+    "slug": "room-sprout",
+    "version": "0.1.0",
+    "scheme": "roomsprout",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.roomsprout.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#F7F5ED",
+        "foregroundImage": "./assets/icon.png"
+      },
+      "predictiveBackGestureEnabled": true,
+      "package": "com.roomsprout.app"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "single",
+      "name": "RoomSprout",
+      "description": "Your room. More you. Thoughtful room makeovers and little decor finds."
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Choose room photos to explore your space in RoomSprout.",
+          "cameraPermission": "Take guided photos of your room in RoomSprout.",
+          "microphonePermission": false
+        }
+      ]
+    ]
+  }
+}

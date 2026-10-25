@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /studio
+Disallow: /capture
+Disallow: /preferences
+Disallow: /result
+Disallow: /product
