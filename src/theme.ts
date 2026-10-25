@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 export const colors = {
-  cream: '#F7F5ED',
-  paper: '#FFFDF7',
-  forest: '#294938',
+  cream: '#F5F1E7',
+  paper: '#FFFCF5',
+  forest: '#263E2E',
   green: '#385B43',
-  sage: '#DDE5D5',
-  pale: '#EAF0E4',
+  sage: '#CCD6B5',
+  pale: '#E3E7D5',
   brown: '#785B45',
   sand: '#EAE1D3',
   ink: '#2F382E',
@@ -18,23 +18,23 @@ export const fonts = {
   regular: 'DMRegular',
   medium: 'DMMedium',
   bold: 'DMBold',
-  display: 'Cormorant',
+  display: 'DMBold',
 };
 export const ui = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center' },
   between: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   title: {
     fontFamily: fonts.display,
-    fontSize: 40,
-    lineHeight: 43,
-    letterSpacing: -0.8,
+    fontSize: 36,
+    lineHeight: 38,
+    letterSpacing: -1.7,
     color: colors.forest,
   },
   heading: {
     fontFamily: fonts.display,
-    fontSize: 29,
-    lineHeight: 33,
-    letterSpacing: -0.5,
+    fontSize: 23,
+    lineHeight: 27,
+    letterSpacing: -0.8,
     color: colors.ink,
   },
   body: { fontFamily: fonts.regular, fontSize: 15, lineHeight: 23, color: colors.muted },

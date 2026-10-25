@@ -28,7 +28,7 @@ export default function Preferences() {
       }
     >
       <Text accessibilityRole="header" style={ui.title}>
-        Your kind of room.
+        Set the mood.
       </Text>
       <ScrollView
         horizontal
@@ -40,16 +40,16 @@ export default function Preferences() {
             key={item.id}
             accessibilityRole="radio"
             accessibilityLabel={item.name}
-            accessibilityState={{ checked: mood === item.id }}
+            aria-checked={mood === item.id}
             onPress={() => setMood(item.id)}
             style={[s.mood, mood === item.id && s.selected]}
           >
             <Image source={item.image} style={s.image} />
             <View style={{ paddingVertical: 12, gap: 6 }}>
               <Text style={ui.label}>{item.name}</Text>
-              <Text style={[ui.small, { color: colors.forest }]}>
-                {mood === item.id ? 'Selected' : 'Choose this style'}
-              </Text>
+              {mood === item.id && (
+                <Text style={[ui.small, { color: colors.forest }]}>Selected</Text>
+              )}
             </View>
           </Pressable>
         ))}
@@ -96,9 +96,15 @@ export default function Preferences() {
   );
 }
 const s = StyleSheet.create({
-  mood: { width: 222, borderBottomWidth: 2, borderBottomColor: colors.line },
+  mood: {
+    width: 222,
+    borderBottomWidth: 3,
+    borderBottomColor: 'transparent',
+    padding: 7,
+    backgroundColor: colors.paper,
+  },
   selected: { borderBottomColor: colors.forest },
-  image: { width: '100%', height: 246, borderRadius: 10 },
+  image: { width: '100%', height: 246, borderRadius: 2 },
   budget: {
     paddingHorizontal: 6,
     minHeight: 44,

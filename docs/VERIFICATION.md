@@ -2,6 +2,19 @@
 
 Checked on 25 October 2026.
 
+## Latest creative studio revision
+
+- Re-read the global AGENTS.md and DESIGN.md and recorded the user's chosen creative studio direction in project DESIGN.md.
+- Inspected actual public Shuffles previews, the loaded Figma Community cover, and accessible Mobbin introduction screens after the user signed in. Access limits are recorded in DESIGN.md.
+- TypeScript, Expo ESLint, and all three catalog tests passed after the revision.
+- Current web, iOS, and Android exports passed. Native exports are bundles, not signed builds or device tests.
+- Live in-app-browser checks passed: mood selection changes the board, empty and matching search, a bookmark round trip and reload, blocked invalid budget, valid sample flow, and saved-room persistence across reload.
+- The web review caught missing selected-state announcements. Mood radios now expose aria-checked, the navigation uses selected tabs within a tablist, and disabled/busy controls use supported ARIA props. Checked state was verified in the rendered DOM.
+- Current visual evidence: creative-home.png, creative-finds.png, and creative-overview.png. Inspected the 353px-wide phone canvas in the 1280 × 720 browser view. Earlier responsive captures below belong to previous layouts.
+- Removed unused serif-font, gradient, and material-circle dependencies/components. No AI service, database, publication, or marketplace catalog was added.
+
+## Earlier prototype checks
+
 - TypeScript, Expo ESLint, and three focused catalog tests passed.
 - Expo Doctor passed all 20 compatibility/configuration checks.
 - Production web export passed.

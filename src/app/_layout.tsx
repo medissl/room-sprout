@@ -12,7 +12,6 @@ export default function Layout() {
     DMRegular: require('@expo-google-fonts/dm-sans/400Regular/DMSans_400Regular.ttf'),
     DMMedium: require('@expo-google-fonts/dm-sans/500Medium/DMSans_500Medium.ttf'),
     DMBold: require('@expo-google-fonts/dm-sans/700Bold/DMSans_700Bold.ttf'),
-    Cormorant: require('@expo-google-fonts/cormorant-garamond/500Medium/CormorantGaramond_500Medium.ttf'),
   });
   const path = usePathname();
   const viewport = useWindowDimensions();
@@ -38,7 +37,7 @@ export default function Layout() {
           name="description"
           content="Thoughtful room makeovers, a style that feels like you, and little decor finds. Explore the RoomSprout prototype."
         />
-        <meta name="theme-color" content="#F7F5ED" />
+        <meta name="theme-color" content="#F5F1E7" />
       </Head>
       <StatusBar style="dark" />
       <View style={[s.root, framed && s.canvas]}>
@@ -48,7 +47,7 @@ export default function Layout() {
             framed && s.frame,
             framed &&
               viewport.width >= 700 && {
-                maxWidth: Math.min(460, Math.round(viewport.height * 0.49)),
+                maxWidth: Math.min(460, Math.max(320, Math.round(viewport.height * 0.49))),
               },
           ]}
         >

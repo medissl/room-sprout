@@ -1,47 +1,37 @@
-# RoomSprout design direction
+# RoomSprout design
 
-An English-language room styling app for young adults making small, attainable changes to bedrooms, rentals, and first apartments. The first milestone is a polished interactive Expo prototype, not a live AI service.
+## Guides and brief
 
-## Direction
+Read both global guides at `~/.codex/AGENTS.md` and `~/.codex/DESIGN.md`, plus the repository AGENTS.md. The global design guide's mobile reference sources are Mobbin, Page Flows, and Figma Community.
 
-Use an immersive room canvas and a tactile interior material board. Full-width room photography, functional numbered product touchpoints, and overlapping linen/wood samples provide the identity. Keep copy and controls secondary to the room.
+The user explicitly selected **Creative studio: tactile collages, bold clean type, unusual layouts**. The earlier retail/editorial direction with oversized serif type and full-screen room photography was rejected. Do not restore it as the default art direction.
 
-- Cream `#F7F5ED`: main canvas. Paper `#FFFDF7`: quiet surfaces.
-- Forest `#294938`: headings, primary actions. Sage `#DDE5D5`: selection.
-- Brown `#785B45`: supporting warmth. Ink `#2F382E`: readable body labels.
-- Cormorant Garamond medium for editorial titles and the wordmark, with DM Sans for controls and prices. The serif is justified by the interior-journal art direction and the reviewed Zara Home reference, rather than used as generic decoration.
-- 24-point mobile gutters, 4/8-point spacing rhythm, 14–18-point media corners, 44-point minimum main controls.
-- Room photography leads. Product details use consistent concept photography, explicitly distinct from store listings.
-- The landing page leads with editorial typography and a wide room photograph. The app home is a room canvas; Finds is an interactive still-life collection, with conventional results only when searching/filtering.
-- Low motion: press feedback and native navigation. No decorative particles, infinite animation, or parallax.
-- English copy, Indonesian rupiah estimates, Shopee and Tokopedia search destinations.
-- The user's cream/pastel art direction is intentionally light.
+## Current direction
 
-## Reference research
+A small creative studio for styling a first bedroom or rental. The room is a working mood board: a tilted photographic snapshot, material swatches, and a separate photographic object cutout. These are native interactive elements, never a flattened mockup.
 
-- [Cosmos](https://www.cosmos.so/): image-led discovery and personal collections.
-- [Are.na](https://www.are.na/): clear capture/collect language and a content-first product.
-- [The Socialite Family](https://www.thesocialitefamily.com/fr-fr): home materials and the relationship between room inspiration and individual objects.
+- Cream `#F5F1E7`, paper `#FFFCF5`, forest `#263E2E`, pastel sage `#CCD6B5`, warm brown `#785B45`.
+- DM Sans bold with tight tracking for short headings and the wordmark; regular and medium for controls and prices. No decorative serif.
+- Home: compact brand header, “Make room / for you”, a proportional layered room board, one primary action, and a horizontal mood selector. Selecting a mood changes the board in place.
+- Finds: staggered object compositions, an arched sage lamp surface, shaped textile photographs, and an isolated ceramic/olive cutout. Prices, saves, search, and categories remain functional.
+- Navigation: a compact forest dock with a cream selected surface and text labels. Main controls have at least 44-point touch targets.
+- Keep the interface quiet enough to use: no filler badges, explanatory paragraphs, decorative interface icons, eyebrow text, em dashes, fake social proof, or repetitive feature-card sections.
+- Preserve visible sample/estimated-price labels. No claims of live AI analysis, exact marketplace matches, or released download builds.
 
-These references informed product and visual direction; no proprietary UI or assets were copied. Room and product imagery was generated specifically for this prototype.
+## References actually inspected
 
-### Rendered reference review
+The global guide lists reference libraries, not a ready-made visual theme. This pass used them as follows:
 
-- [Zara Home](https://www.zarahome.com/id/): inspected the actual image-dominant editorial composition and quiet navigation.
-- [Cosmos Explore](https://www.cosmos.so/explore): inspected collection covers, visual rhythm, and the relationship between collections and individual elements.
-- [Pinterest on Page Flows](https://pageflows.com/post/ios/searching/pinterest/): inspected the accessible recorded mobile search/discovery screens. The recording is dated February 2022; it informed hierarchy rather than current platform conventions.
-- [Mobbin](https://mobbin.com/): inspected the public reference-library entry point. No gated app screens were accessed.
+1. [Shuffles general browsing on Page Flows](https://pageflows.com/post/ios/general-browsing/shuffles/). Inspected the accessible Home, Profile, and Editor previews: image-led collections and a canvas built from separate elements. Recording dated October 2022; used as composition evidence, not current platform guidance.
+2. [Phantom mobile introduction on Mobbin](https://mobbin.com/screens/542d8942-272f-4f0b-9158-a065e4acae93). Inspected the actual accessible introduction screen after the user signed in: a concentrated cluster of layered objects, short bold copy, and an obvious action hierarchy. Adapted the compositional principle; its finance content, purple palette, icons, and account flow do not belong in RoomSprout.
+3. [Fixtured mobile introduction on Mobbin](https://mobbin.com/screens/afe89433-34fb-4e6d-a751-68b076bd1932). Inspected the accessible sports app introduction: offset tangible panels with controlled rotation and strong type. This is a graphic composition reference, not an interior-design workflow reference.
+4. [Decorify in Figma Community](https://www.figma.com/community/file/1388729321633474968/decorify-ai-interior-design-app-ui-kit). The page loaded after an initial timeout. Inspected its public cover preview and product information. Rejected the busy icon/card/upsell pattern for this brief. No paid kit, editable file, or third-party assets were purchased or copied.
+5. [Cosmos on Mobbin](https://mobbin.com/apps/cosmos-ios-8bfdb726-e2c2-4305-8185-7e915a61d351/d6636d6d-7212-4fbd-983f-c2e5f8e1a9d7/screens). Verified the signed-in page and accessible splash preview. Full older-app access is Pro-only for this account. The splash is not evidence of its collection workflows.
 
-Two generated screen concepts in `docs/concepts/` established the visual direction before its Expo implementation. The live app uses real components and separate project-bound photographs, not a flattened screen mockup.
+Earlier Zara Home and Cosmos website research informed the rejected editorial iteration. It is not the primary reference set for the current mobile design.
 
-## Honest states
+## Assets and review
 
-Never imply a sample concept was generated from a user's photo. Never label estimates as live prices, marketplace searches as exact product matches, or unreleased app builds as available downloads. No invented reviews, usage counts, or endorsements.
+[Asset paths and generation prompts](docs/ASSETS.md) record the two original transparent cutouts. Preserve their alpha. UI, labels, swatches, controls, and shadows are live components. No reference-site assets were copied.
 
-## Review requirements
-
-Inspect the running app and website. Test 320px, 390px, 768px, 1024px, and 1440px widths. Verify images, small-screen navigation, photo selection, budget errors, saved states, empty searches, and external link destinations. Actual phone camera permissions, native interaction, and signed EAS builds require device validation in the next milestone.
-
-## Explicit user refinements
-
-No eyebrow labels, generic interface icons, em dashes, explanatory blocks, or repetitive card layouts. Use the original brand mark only. Keep copy short and functional. Put detailed prototype limitations in documentation or a collapsed disclosure, while retaining essential sample/price/privacy labels. Room and product photography carry the visual identity. Navigation and save actions use clear text.
+Inspect the actual running app, including mood changes, sample capture, budget errors, saved rooms, search, empty results, and product routes. Screenshots prefixed `creative-` show the current iteration; earlier screenshots document preceding layouts. [Verification](docs/VERIFICATION.md) distinguishes browser checks, native bundle checks, and outstanding device work.

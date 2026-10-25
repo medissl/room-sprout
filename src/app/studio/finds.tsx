@@ -3,9 +3,7 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Logo, TextAction } from '../../components/ui';
-import { Materials } from '../../components/Materials';
-import { ProductRow } from '../../components/ProductRow';
-import { formatPrice, products, roomImage, cornerImage, type Product } from '../../data';
+import { formatPrice, products, type Product } from '../../data';
 import { useRoom } from '../../state';
 import { colors, fonts, ui } from '../../theme';
 
@@ -25,47 +23,46 @@ export default function Finds() {
         (category === 'Objects' && product.id === 'vase')) &&
       `${product.name} ${product.type}`.toLowerCase().includes(query.toLowerCase().trim()),
   );
-  const board = !searching && !savedOnly && category === 'All';
-  function open(product: Product) {
-    router.push({ pathname: '/product', params: { id: product.id } });
-  }
   return (
     <SafeAreaView edges={['top', 'left', 'right']} style={s.page}>
       <View style={s.header}>
-        <Logo />
+        <Logo small />
+        <TextAction
+          onPress={() => {
+            if (searching) setQuery('');
+            setSearching(!searching);
+          }}
+        >
+          Search
+        </TextAction>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
-        <View style={s.heading}>
-          <Text accessibilityRole="header" style={ui.title}>
-            Good finds
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={s.content}
+      >
+        <View style={s.intro}>
+          <Text accessibilityRole="header" style={s.title}>
+            Little finds.{'\n'}Good energy.
           </Text>
-          <View style={[ui.row, { gap: 18 }]}>
-            <TextAction
-              onPress={() => {
-                if (searching) setQuery('');
-                setSearching(!searching);
-              }}
-            >
-              Search
-            </TextAction>
-            <TextAction
-              label={`Saved (${favorites.length})`}
-              selected={savedOnly}
-              onPress={() => {
-                setCategory('All');
-                setSavedOnly(!savedOnly);
-              }}
-            >
-              Saved
-            </TextAction>
-          </View>
+          <TextAction
+            label={`Saved (${favorites.length})`}
+            selected={savedOnly}
+            onPress={() => {
+              setCategory('All');
+              setSavedOnly(!savedOnly);
+            }}
+          >
+            Saved
+          </TextAction>
         </View>
+        <Text style={s.disclosure}>Concept pieces. Estimated prices.</Text>
         {searching && (
           <View style={s.search}>
             <TextInput
               autoFocus
               accessibilityLabel="Search decor finds"
-              placeholder="Find something for your room"
+              placeholder="What are you looking for?"
               placeholderTextColor={colors.muted}
               value={query}
               onChangeText={setQuery}
@@ -89,18 +86,12 @@ export default function Finds() {
                 setCategory(item);
                 setSavedOnly(false);
               }}
-              style={[
-                s.category,
-                category === item && !savedOnly && { borderBottomColor: colors.forest },
-              ]}
+              style={[s.category, category === item && !savedOnly && s.activeCategory]}
             >
               <Text
                 style={[
-                  ui.label,
-                  {
-                    color: category === item && !savedOnly ? colors.forest : colors.muted,
-                    fontSize: 13,
-                  },
+                  s.categoryText,
+                  category === item && !savedOnly && { fontFamily: fonts.bold },
                 ]}
               >
                 {item}
@@ -108,113 +99,113 @@ export default function Finds() {
             </Pressable>
           ))}
         </View>
-        {board ? (
-          <>
-            <View style={s.board}>
-              <Image
-                source={require('../../../assets/finds-board.jpg')}
-                style={s.boardPhoto}
-                accessibilityLabel="Lamp, sage throw, and ceramic vase in a cream material still life"
-              />
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="View Pleated bedside lamp"
-                onPress={() => open(products[0])}
-                style={s.lampLabel}
-              >
-                <Text style={s.productTitle}>Pleated lamp</Text>
-                <Text style={s.price}>{formatPrice(products[0].price)}</Text>
-                <Text style={s.view}>View</Text>
-              </Pressable>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="View Sage cotton throw"
-                onPress={() => open(products[1])}
-                style={s.throwLabel}
-              >
-                <Text style={s.smallTitle}>Sage throw</Text>
-                <Text style={s.price}>{formatPrice(products[1].price)}</Text>
-                <Text style={s.view}>View</Text>
-              </Pressable>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="View Textured ceramic vase"
-                onPress={() => open(products[2])}
-                style={s.vaseLabel}
-              >
-                <Text style={s.smallTitle}>Ceramic vase</Text>
-                <Text style={s.price}>{formatPrice(products[2].price)}</Text>
-                <Text style={s.view}>View</Text>
-              </Pressable>
-            </View>
-            <View style={s.samples}>
-              <Materials size={53} />
-            </View>
-            <View style={s.collection}>
-              <Text accessibilityRole="header" style={ui.heading}>
-                For your soft reset
-              </Text>
-              <View style={s.collectionPhotos}>
-                {[roomImage, cornerImage, products[3].image].map((image, index) => (
-                  <Pressable
-                    key={index}
-                    accessibilityRole="button"
-                    accessibilityLabel={
-                      index === 2 ? 'View Oatmeal cushion cover' : 'Explore room collection'
-                    }
-                    onPress={() => (index === 2 ? open(products[3]) : router.push('/result'))}
-                    style={{ flex: 1 }}
-                  >
-                    <Image source={image} style={s.collectionImage} />
-                  </Pressable>
-                ))}
+        {visible.length ? (
+          <View style={s.grid}>
+            {[0, 1].map((column) => (
+              <View key={column} style={[s.column, column === 1 && { paddingTop: 44 }]}>
+                {visible
+                  .filter((_, index) => index % 2 === column)
+                  .map((product) => (
+                    <FindTile key={product.id} product={product} />
+                  ))}
               </View>
-            </View>
-          </>
-        ) : (
-          <View style={s.results}>
-            {visible.length ? (
-              visible.map((product) => <ProductRow key={product.id} product={product} />)
-            ) : (
-              <Text style={[ui.heading, { paddingVertical: 35 }]}>Nothing here just yet.</Text>
-            )}
+            ))}
           </View>
+        ) : (
+          <Text style={[ui.heading, { paddingVertical: 45 }]}>Nothing here just yet.</Text>
         )}
-        <Text style={s.disclosure}>Concept collection. Prices estimated.</Text>
       </ScrollView>
     </SafeAreaView>
   );
 }
+function FindTile({ product }: { product: Product }) {
+  const { favorites, toggleFavorite, ready } = useRoom();
+  const saved = favorites.includes(product.id);
+  const cutout = product.id === 'lamp' || product.id === 'vase';
+  const image =
+    product.id === 'lamp'
+      ? require('../../../assets/lamp-cutout.png')
+      : product.id === 'vase'
+        ? require('../../../assets/vase-cutout.png')
+        : product.image;
+  const shortName = {
+    lamp: 'Pleated lamp',
+    throw: 'Sage throw',
+    vase: 'Olive stem vase',
+    cushion: 'Linen cushion',
+  }[product.id];
+  return (
+    <View style={s.tile}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`View ${product.type}`}
+        onPress={() => router.push({ pathname: '/product', params: { id: product.id } })}
+        style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}
+      >
+        <View
+          style={[
+            s.object,
+            product.id === 'lamp' && s.lampSurface,
+            product.id === 'vase' && s.vaseSurface,
+            product.id === 'throw' && s.throwSurface,
+            product.id === 'cushion' && s.cushionSurface,
+          ]}
+        >
+          <Image
+            source={image}
+            accessibilityLabel={`${product.type} concept image`}
+            resizeMode={cutout ? 'contain' : 'cover'}
+            style={[s.image, cutout && s.cutout]}
+          />
+        </View>
+        <Text style={s.productName}>{shortName}</Text>
+      </Pressable>
+      <View style={s.meta}>
+        <Text style={s.price}>{formatPrice(product.price)}</Text>
+        <TextAction
+          label={saved ? `Unsave ${product.type}` : `Save ${product.type}`}
+          selected={saved}
+          onPress={() => {
+            if (ready) toggleFavorite(product.id);
+          }}
+        >
+          {saved ? 'Saved' : 'Save'}
+        </TextAction>
+      </View>
+    </View>
+  );
+}
 const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: colors.cream },
-  header: { height: 56, alignItems: 'center', justifyContent: 'center' },
-  heading: {
-    paddingHorizontal: 24,
-    paddingTop: 4,
+  header: {
+    height: 60,
+    paddingHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: 8,
   },
-  categories: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 24,
-    marginTop: 8,
-    marginBottom: 8,
+  content: { paddingHorizontal: 24, paddingTop: 12, paddingBottom: 24 },
+  intro: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 10 },
+  title: {
+    fontFamily: fonts.bold,
+    fontSize: 35,
+    lineHeight: 35,
+    letterSpacing: -1.7,
+    color: colors.forest,
   },
-  category: {
-    minHeight: 44,
-    justifyContent: 'center',
-    borderBottomWidth: 2,
-    borderBottomColor: 'transparent',
+  disclosure: {
+    fontFamily: fonts.regular,
+    fontSize: 11,
+    color: colors.muted,
+    marginTop: 12,
+    marginBottom: 5,
   },
   search: {
-    marginHorizontal: 24,
     borderBottomWidth: 1,
     borderBottomColor: colors.line,
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 12,
   },
   input: {
     flex: 1,
@@ -224,31 +215,49 @@ const s = StyleSheet.create({
     fontSize: 14,
     color: colors.ink,
   },
-  board: { width: '100%', aspectRatio: 0.8 },
-  boardPhoto: { position: 'absolute', width: '100%', height: '100%' },
-  lampLabel: { position: 'absolute', left: '6%', bottom: '7%', minWidth: 120, minHeight: 65 },
-  throwLabel: { position: 'absolute', right: '5%', top: '3%', minHeight: 64 },
-  vaseLabel: { position: 'absolute', right: '5%', bottom: '7%', minHeight: 64 },
-  productTitle: { fontFamily: fonts.display, fontSize: 26, color: colors.ink },
-  smallTitle: { fontFamily: fonts.display, fontSize: 19, color: colors.ink },
-  price: { fontFamily: fonts.regular, fontSize: 11, color: colors.brown, marginTop: 2 },
-  view: {
-    fontFamily: fonts.medium,
-    fontSize: 12,
+  categories: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 23,
+    marginTop: 4,
+  },
+  category: {
+    minHeight: 44,
+    justifyContent: 'center',
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
+  },
+  activeCategory: { borderBottomColor: colors.forest },
+  categoryText: { fontFamily: fonts.regular, color: colors.forest, fontSize: 12 },
+  grid: { flexDirection: 'row', gap: 19 },
+  column: { flex: 1, minWidth: 0, gap: 24 },
+  tile: { gap: 0 },
+  object: { width: '100%', height: 186, overflow: 'hidden' },
+  lampSurface: {
+    height: 204,
+    backgroundColor: colors.sage,
+    borderTopLeftRadius: 80,
+    borderTopRightRadius: 80,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+  },
+  vaseSurface: { height: 224 },
+  throwSurface: {
+    height: 158,
+    borderTopRightRadius: 52,
+    borderBottomLeftRadius: 52,
+    backgroundColor: colors.sand,
+  },
+  cushionSurface: { height: 155, borderRadius: 7, backgroundColor: colors.sand },
+  image: { width: '100%', height: '100%' },
+  cutout: { width: '86%', height: '92%', alignSelf: 'center', marginTop: 8 },
+  productName: {
+    fontFamily: fonts.bold,
+    fontSize: 14,
     color: colors.forest,
-    marginTop: 6,
-    textDecorationLine: 'underline',
+    marginTop: 11,
+    letterSpacing: -0.3,
   },
-  samples: { alignItems: 'center', marginTop: -18, height: 60 },
-  collection: { gap: 14, paddingTop: 10 },
-  collectionPhotos: { flexDirection: 'row', gap: 3 },
-  collectionImage: { width: '100%', height: 130 },
-  results: { paddingHorizontal: 24 },
-  disclosure: {
-    fontFamily: fonts.regular,
-    fontSize: 10,
-    color: colors.muted,
-    paddingHorizontal: 24,
-    paddingVertical: 18,
-  },
+  meta: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 2 },
+  price: { fontFamily: fonts.regular, fontSize: 11, color: colors.brown },
 });

@@ -69,8 +69,8 @@ body,
   gap: 48px;
 }
 .hero h1 {
-  font-family: Cormorant, serif;
-  font-weight: 500;
+  font-family: DMBold, sans-serif;
+  font-weight: normal;
   font-size: clamp(74px, 8.5vw, 126px);
   letter-spacing: -4px;
   line-height: 0.97;
@@ -131,8 +131,8 @@ body,
   align-items: center;
 }
 .landing h2 {
-  font-family: Cormorant, serif;
-  font-weight: 500;
+  font-family: DMBold, sans-serif;
+  font-weight: normal;
   color: var(--forest);
   font-size: 41px;
   line-height: 1.12;

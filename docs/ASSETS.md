@@ -21,3 +21,18 @@ The app icon is a project-authored botanical mark. The interface uses explicit t
 ## Room-canvas revision
 
 Built-in image generation produced `assets/room-canvas.jpg` (portrait sage/cream bedroom), `assets/finds-board.jpg` (lamp, throw and vase still life), and `assets/materials.jpg` (sage linen, walnut and cream linen texture panels). The separate home and Finds screen concepts are saved in `docs/concepts/`. All are original project concepts. UI touchpoints, labels, pricing and material circles are live Expo components.
+
+## Creative studio cutouts
+
+Created with the built-in image generation tool, copied into the project, trimmed and resized to 600px high while preserving actual alpha. No external brand imagery was reused.
+
+- assets/lamp-cutout.png: 449 × 600, transparent PNG, used on the home mood board and in Finds.
+- assets/vase-cutout.png: 386 × 600, transparent PNG, used in Finds.
+
+Final lamp prompt:
+
+> Product cutout for a premium creative interior-design mobile app mood board. A single compact bedside table lamp, rounded dark warm walnut base, ivory pleated linen conical shade. Front three-quarter view, complete object, softly directional daylight, extremely tactile real materials, quiet sculptural silhouette. Photographic product-quality realism. Centered in a portrait canvas with generous empty margin on every side. Genuine transparent background, isolated object, no floor or wall, no room, no text, no graphic shapes, no frame, no extra objects. Very subtle compact contact shadow only. Warm brown and cream, no yellow tint. The image will be layered on a pastel green paper canvas.
+
+Final vase prompt:
+
+> Product cutout for a premium creative interior-design mobile app mood board. A single sculptural off-white ceramic vessel with a round body and a short narrow neck, tactile matte stoneware, holding one asymmetrical short leafy olive branch extending toward the upper left. Front three-quarter view, complete vase and complete branch, centered portrait composition with generous transparent margin. Photographic real materials and soft daylight. Genuine transparent background. No floor, wall, room, frame, labels, text, graphic shapes or extra objects. No checkerboard baked into the image. Warm neutral cream and muted olive green.

@@ -20,15 +20,15 @@ export function Logo({ small = false }: { small?: boolean }) {
     <View style={[ui.row, { gap: 4 }]}>
       <Image
         source={require('../../assets/icon.png')}
-        style={{ width: small ? 30 : 36, height: small ? 30 : 36 }}
+        style={{ width: small ? 24 : 28, height: small ? 24 : 28 }}
         accessibilityElementsHidden
       />
       <Text
         style={{
           fontFamily: fonts.display,
           color: colors.forest,
-          fontSize: small ? 25 : 29,
-          letterSpacing: -0.4,
+          fontSize: small ? 21 : 23,
+          letterSpacing: -1.2,
         }}
       >
         roomsprout.
@@ -52,13 +52,17 @@ export function Button({
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityState={{ disabled: disabled || loading, busy: loading }}
+      aria-disabled={disabled || loading}
+      aria-busy={loading}
       disabled={disabled || loading}
       onPress={onPress}
       style={({ pressed }) => [
         s.button,
         secondary && s.secondary,
-        { opacity: disabled ? 0.45 : pressed ? 0.78 : 1 },
+        {
+          opacity: disabled ? 0.45 : pressed ? 0.86 : 1,
+          transform: [{ scale: pressed ? 0.98 : 1 }],
+        },
       ]}
     >
       {loading && <ActivityIndicator color={secondary ? colors.forest : colors.paper} />}
@@ -183,7 +187,7 @@ const s = StyleSheet.create({
   button: {
     minHeight: 54,
     backgroundColor: colors.forest,
-    borderRadius: 28,
+    borderRadius: 17,
     paddingHorizontal: 14,
     flexDirection: 'row',
     gap: 10,
