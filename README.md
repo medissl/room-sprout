@@ -4,6 +4,21 @@ Your room. More you.
 
 An English-language Expo / React Native prototype with a green, brown, and cream palette, original room imagery, and a companion landing page prepared for Vercel.
 
+## Work in progress
+
+RoomSprout is an ongoing product at the interactive prototype stage. The current app supports local room drafts, reference photos and clips, style and budget choices, editable decor mixes, and shopping searches. Real AI styling, live product matching, accounts, signed app distribution and production deployment are upcoming work.
+
+### Current app
+
+Screenshots captured from the running web prototype on 29 October 2026.
+
+<p>
+  <img src="docs/screenshots/product-home-2026-10-29.jpg" alt="RoomSprout Discover screen with an earthy room collage" width="280" />
+  <img src="docs/screenshots/product-finds-2026-10-29.jpg" alt="RoomSprout Finds screen with decor pieces and estimated prices" width="280" />
+</p>
+
+[Room setup and plan workspace](docs/screenshots/ux-prototype.png) · [UX decisions](docs/UX.md)
+
 ## Run
 
 ```sh
